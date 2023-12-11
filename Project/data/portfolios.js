@@ -12,7 +12,6 @@ createPortfolio will create a portfolio with subject, createDate, Posts
     *users need to create a first post for the portfolio when they create the portfolio
     *lastUpdate gets set to createDate, cumulativeRating gets a default value
 deletePortfolio will delete a portfolio and all related posts
-updatePortfolio will add a post and update lastUpdate
 cumulativeRating will be automatically calculated
 */
 
@@ -28,14 +27,10 @@ const createPortfolio = async (
 
 
     //add portfolioID to the user's field
-    
+
 }
 
 const deletePortfolio = async () => {
-
-}
-
-const updatePortfolio = async () => {
 
 }
 
