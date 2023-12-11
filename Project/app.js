@@ -4,6 +4,7 @@ const app = express()
 
 //imports and declarations
 import configRoutes from './routes/index.js'
+import session from 'express-session'
 import exphbs from 'express-handlebars'
 import {dirname} from 'path'
 import { fileURLToPath } from 'url'
@@ -13,6 +14,22 @@ const staticDir = express.static(__dirname + '/public')
 
 //setup
 app.use('/public', staticDir)
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+
+app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars')
+
+//session and middleware***************
+app.use(session({
+    name: 'AuthState',
+    secret: 'some secret string!',
+    resave: false,
+    saveUninitialized: false
+}))
+
+
+//end middleware***********************
 
 configRoutes(app)
 
