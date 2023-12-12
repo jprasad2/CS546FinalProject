@@ -37,3 +37,9 @@ app.listen(3000, () => {
     console.log("We've now got a server!")
     console.log("Your routes will be running on http://localhost:3000")
 })
+
+import {userData} from "./data/index.js"
+let firstName, lastName, Email, Age, Username, password
+let newUser = await userData.registerUser(firstName = "Josh", lastName = "Prasad",
+Email = "email@email.com", Age = "21", Username = "username", password = "password")
+console.log(newUser)
