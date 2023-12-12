@@ -43,12 +43,16 @@ const createPortfolio = async (
 
     //add portfolioID to the user's field
     const userCollection = await users()
-    const user = await userCollection.findOneAndUpdate(
+    const user = await userCollection.findOne({Email: Email})
+    //console.log(user)
+    console.log(insertInfo.insertedId.toString())
+    user.portfolioIDs.push(insertInfo.insertedId.toString())
+    const updateuser = await userCollection.findOneAndUpdate(
         {Email: Email},
-        {$set: {PortfolioIDs: portfolioIDs.append(insertInfo.insertedId)}},
+        {$set: {portfolioIDs: user.portfolioIDs}},
         {returnDocument: 'after'}
         )
-    if(!user) throw [500, "Could not add portfolio to user"]
+    if(!updateuser) throw [500, "Could not add portfolio to user"]
 
     return {insertedPortfolio: true}
 }
