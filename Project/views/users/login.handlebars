@@ -1,0 +1,16 @@
+<h1>{{title}}</h1>
+
+<p>
+    Login to your account. <br>
+</p>
+<form action="/user/login" method="POST" id="login-form">
+        <label for="emailAddressInput" id="emailLabel">Email: </label>
+        <input type="email" name="emailAddressInput" id="emailAddressInput" placeholder="email" autocomplete="off"/><br>
+        <label for="passwordInput" id="passwordLabel">Password: </label>
+        <input type="password" name="passwordInput" id="passwordInput" placeholder="password" autocomplete="off"/>
+        <button type="submit">Login</button>
+    </form>
+
+<a href="/user/signup">Click here to signup</a>
+
+<script src="public/js/clientValidation.js"></script>
