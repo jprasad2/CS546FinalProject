@@ -48,7 +48,20 @@ router
         res.render("./users/login", {title: "Login"})
     })
     .post(async(req, res) => {
-
+        req.body.emailAddressInput = validation.checkEmail(req.body.emailAddressInput)
+        req.body.passwordInput = validation.checkPassword(req.body.passwordInput)  
+        try {
+            let userInfo = await userData.loginUser(req.body.emailAddressInput, req.body.passwordInput)
+            req.session.name = "AuthState"
+            req.session.user = userInfo
+            res.redirect("../feed") 
+        } catch (e) {
+          console.log(e)
+          return res.status(400).render("./users/login", {
+            title: "Login",
+            error: e
+          })
+        }
     })
 
 router

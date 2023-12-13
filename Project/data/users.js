@@ -113,8 +113,31 @@ const loginUser = async (Email, password) => {
         throw 'Either the email address or password is invalid'
 }
 
+const getAllUsers = async(Username) => {
+    const userCollection = await user()
+    let userList = await userCollection.find({}).toArray()
+
+    userList = userList.map((item) => {
+        item._id = item._id.toString()
+    })
+
+    return userList
+}
+
+const searchByUser = async(Username) => {
+    const userCollection = await users()
+    let usersMatch
+    usersMatch = await userCollection.find(
+        {Username: {'$in': Username}}
+    ).toArray()
+
+    if (!usersMatch) throw "Unable to find users"
+    return usersMatch
+}
+
 export default {
     registerUser,
     updateUser,
-    loginUser
+    loginUser,
+    searchByUser
 }
