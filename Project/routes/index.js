@@ -24,7 +24,7 @@ const constructorMethod = (app) => {
     app.use('/feed', feedRoutes)
 
     app.use('*', (req, res) => {
-        res.status(404).render('./error', {type: 'error-not-found', error: 'Not found', title: 'Error Page'})
+        res.status(404).render('./error/error', {type: 'error-not-found', error: 'Not found', title: 'Error Page'})
     })
 }
 

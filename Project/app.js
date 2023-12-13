@@ -28,6 +28,25 @@ app.use(session({
     saveUninitialized: false
 }))
 
+//logging middleware, logs each request, 
+//allows nonauthenticated users to /, redirects authenticated users to /feed
+app.use(async (req, res, next) => {
+    if(req.session.user) {
+        console.log("[" + new Date().toUTCString() + "]: " + req.method + " " + req.originalUrl + " (Authenticated User)")
+    }
+    else {
+        console.log("[" + new Date().toUTCString() + "]: " + req.method + " " + req.originalUrl + " (Non-Authenticated User)")
+    }
+    if (req.originalUrl !== '/')
+        return next()
+    else {
+        if (req.session.user)
+            return res.redirect('/feed')
+    }
+    return next()
+});
+
+
 
 //end middleware***********************
 
