@@ -8,7 +8,8 @@ const router = Router()
 router
     .route('/')
     .get(async(req, res) => {
-
+        //get the current users feed
+        res.render("./users/feed", {title: "Feed"})
     })
 
 router
@@ -21,6 +22,15 @@ router
     .route('/user/:portfolioId')
     .get(async(req, res) => {
         
+    })
+
+router
+    .route('/search')
+    .get(async(req, res) => {
+        res.render("./users/search", {title: "Search"})
+    })
+    .post(async (req, res) => {
+        //search
     })
 
 export default router

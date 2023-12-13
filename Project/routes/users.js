@@ -7,13 +7,13 @@ import {userData} from "../data/index.js"
 router
     .route('/profile')
     .get(async (req, res) => {
-
+        res.render("./users/profile", {title: "Profile"})
     })
 
 router
     .route('/signup')
-    .get((req, res) => {
-        res.status(200).json("get /users/signup")
+    .get(async (req, res) => {
+        res.render("./users/signup", {title: "Signup"})
     })
     .post(async(req, res) => {
         /*
@@ -22,6 +22,7 @@ router
             firstName: "first name"
             lastName: "last name"
             email: "email address"
+            age: "age"
             username: "username"
             password: "password"
         }
@@ -44,7 +45,7 @@ router
 router
     .route('/login')
     .get((req, res) => {
-
+        res.render("./users/login", {title: "Login"})
     })
     .post(async(req, res) => {
 
@@ -53,7 +54,7 @@ router
 router
     .route('/logout')
     .get(async(req, res) => {
-
+        res.render("./users/logout", {title: "Logout"})
     })
 
 export default router
