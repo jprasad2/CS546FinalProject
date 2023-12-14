@@ -11,13 +11,19 @@
 </select>
 <input type="text" name="searchInput" id="searchInput" placeholder="Search" autocomplete="off"/>
 <button type="submit">Search</button>
-</form>
-<div id="error" class="error">{{error}}</div>
+</form> <br>
+<div id="error" class="error">{{error}}</div><br>
 
 <script src="public/js/clientValidation.js"></script>
 
+{{Query}}<br>
+
 {{#each searchResults}}
-    <p>{{Username}}</p>
+    <p class="search-results">
+        {{Username}}<br>
+        {{Email}}<br>
+        {{Bio}}
+    </p>
 {{/each}}
 
 

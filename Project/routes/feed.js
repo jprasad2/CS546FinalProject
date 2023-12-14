@@ -2,6 +2,7 @@ import {Router} from "express"
 import validation from "../validation.js"
 const router = Router()
 import { userData } from "../data/index.js"
+import { portfolioData } from "../data/index.js"
 
 //ensure the user is logged in first
 
@@ -38,7 +39,11 @@ router
             let searchResults
             if (req.body.searchType == 'username')
                 searchResults = await userData.searchByUser(req.body.searchInput)
-            res.render("./users/search", {title: "Search", searchResults: searchResults})
+            else if (req.body.searchType == 'subject')
+                searchResults = await portfolioData.searchBySubject(req.body.searchInput)
+
+            let Query = "Searched for " + req.body.searchType + ": " + req.body.searchInput
+            res.render("./users/search", {title: "Search", Query: Query, searchResults: searchResults})
 
         } catch (e)
         {

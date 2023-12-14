@@ -24,7 +24,11 @@ if (loginform) {
 if (searchform) {
     searchform.addEventListener('submit', (event) => {
         try {
-            checkStr(searchInput.value)
+            /*
+            There is no client-side validation for this event
+            Users can enter an empty string and it will just search for all users
+            Search function is a partial match
+            */
         } catch (e) {
             event.preventDefault()
             error.innerHTML = e

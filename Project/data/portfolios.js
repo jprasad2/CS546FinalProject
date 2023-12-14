@@ -61,7 +61,29 @@ const deletePortfolio = async () => {
 
 }
 
+const searchBySubject = async(Subject) => {
+    const portfolioCollection = await portfolios()
+    let portfolioMatch = await portfolioCollection.find(
+        {Subject: {$regex: Subject, $options: "i"}}
+    ).toArray()
+    //https://dev.to/sagnikbanerjeesb/partial-text-search-on-mongo-46j3
+    if (!portfolioMatch) throw "Unable to find portfolios"
+    console.log(portfolioMatch)
+
+    const userCollection = await users()
+    let userList = []
+    for (let i = 0; i < portfolioMatch.length; i++)
+    {
+        userList.push(await userCollection.findOne(
+            {portfolioIDs: portfolioMatch[i]._id.toString()}
+        ))
+    }
+    console.log(userList)
+    return userList
+}
+
 export default {
     createPortfolio,
-    deletePortfolio
+    deletePortfolio,
+    searchBySubject
 }
