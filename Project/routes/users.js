@@ -65,6 +65,12 @@ router
     })
 
 router
+    .route('/createport')
+    .get((req, res) => {
+        res.render("./users/createport", {title: "Create Portfolio"})
+    })
+
+router
     .route('/logout')
     .get(async(req, res) => {
         res.render("./users/logout", {title: "Logout"})
