@@ -20,9 +20,15 @@ function checkPassword(str) {
     return str
 }
 
+function checkStr(str) {
+
+    return str
+}
+
 export default {
     checkName,
     checkEmail,
     checkUsername,
-    checkPassword
+    checkPassword,
+    checkStr
 }

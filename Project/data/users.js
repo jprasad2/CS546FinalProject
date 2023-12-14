@@ -127,10 +127,12 @@ const getAllUsers = async(Username) => {
 const searchByUser = async(Username) => {
     const userCollection = await users()
     let usersMatch
+    console.log(Username)
     usersMatch = await userCollection.find(
-        {Username: {'$in': Username}}
+        {Username: {$regex: Username, $options: "i"}}
     ).toArray()
-
+    //https://dev.to/sagnikbanerjeesb/partial-text-search-on-mongo-46j3
+    console.log(usersMatch)
     if (!usersMatch) throw "Unable to find users"
     return usersMatch
 }

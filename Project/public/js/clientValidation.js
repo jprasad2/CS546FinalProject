@@ -1,16 +1,30 @@
 
 const loginform = document.getElementById("login-form")
+const searchform = document.getElementById("search-form")
 
 
 const emailAddressInput = document.getElementById("emailAddressInput")
 const passwordInput = document.getElementById("passwordInput")
+
+const searchInput = document.getElementById("searchInput")
 
 if (loginform) {
     loginform.addEventListener('submit', (event) => {
         try {
             checkEmail(emailAddressInput.value)
             checkPassword(passwordInput.value)
-            error.hidden = true
+            //error.hidden = true
+        } catch (e) {
+            event.preventDefault()
+            error.innerHTML = e
+        }
+    })
+}
+
+if (searchform) {
+    searchform.addEventListener('submit', (event) => {
+        try {
+            checkStr(searchInput.value)
         } catch (e) {
             event.preventDefault()
             error.innerHTML = e
@@ -20,7 +34,12 @@ if (loginform) {
 
 
 
-
+function checkStr(str) {
+    if (!str) throw 'Error: please enter text'
+    if (typeof str != 'string') throw "error: input must be a string"
+    str = str.trim()
+    if (str.length == 0) throw "cannot enter nothing or empty spaces"
+}
 
 function checkEmail(email) {
     if (!email) throw 'Error: please enter an email'

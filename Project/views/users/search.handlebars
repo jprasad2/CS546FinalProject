@@ -1,0 +1,23 @@
+<a href="/user/profile">Profile</a> <br>
+<a href="../feed">go to feed</a> <br>
+<a href="/user/logout">logout</a> <br>
+
+<form action="/feed/search" method="POST" id="search-form">
+<label for="searchBy">Search by:</label>
+<select name="searchType" id="searchType">
+    <option value="username">Username</option>
+    <option value="subject">Subject</option>
+    <option value="tag">Tag</option>
+</select>
+<input type="text" name="searchInput" id="searchInput" placeholder="Search" autocomplete="off"/>
+<button type="submit">Search</button>
+</form>
+<div id="error" class="error">{{error}}</div>
+
+<script src="public/js/clientValidation.js"></script>
+
+{{#each searchResults}}
+    <p>{{Username}}</p>
+{{/each}}
+
+
