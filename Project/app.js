@@ -1,6 +1,7 @@
 //setup server
 import express from 'express'
 const app = express()
+import { seedDatabase } from './tasks/seed.js'
 
 //imports and declarations
 import configRoutes from './routes/index.js'
@@ -52,32 +53,13 @@ app.use(async (req, res, next) => {
 
 configRoutes(app)
 
+await seedDatabase()
+
 app.listen(3000, () => {
     console.log("We've now got a server!")
     console.log("Your routes will be running on http://localhost:3000")
 })
 
-import {dbConnection, closeConnection} from './config/mongoConnection.js'
-
-//console.log("awaiting db connection")
-const db = await dbConnection()
-await db.dropDatabase()
-
-import {userData} from "./data/index.js"
-let firstName, lastName, Email, Age, Username, password
-let newUser
-try {
-    newUser = await userData.registerUser(firstName = "Josh", lastName = "Prasad",
-Email = "email@email.com", Age = "21", Username = "username", password = "Password123")
-} catch (e) {
-    console.log(e)
-}
-console.log(newUser)
-
-import { portfolioData } from './data/index.js'
-let subject, createDate
-let newPortfolio = await portfolioData.createPortfolio(subject = "art", createDate = "12/12/23", Email = "email@email.com")
-console.log(newPortfolio)
 import {users} from './config/mongoCollections.js'
 const userCollection = await users()
 const user = await userCollection.findOne({Email: "email@email.com"})

@@ -1,4 +1,4 @@
-import { posts } from "../config/mongoCollections"
+import { posts } from "../config/mongoCollections.js"
 
 /*
 Posts schema
@@ -34,4 +34,10 @@ const deletePost = async () => {
 
 const updatePost = async () => {
     
+}
+
+export default {
+    createPost,
+    deletePost,
+    updatePost
 }
