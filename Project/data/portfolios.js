@@ -1,5 +1,6 @@
 import { portfolios } from "../config/mongoCollections.js"
 import {users} from '../config/mongoCollections.js'
+import { ObjectId } from "mongodb"
 
 /*
 Portfolio Schema
@@ -82,8 +83,22 @@ const searchBySubject = async(Subject) => {
     return userList
 }
 
+const getPortfolioById = async(id) => {
+    const portfolioCollection = await portfolios()
+    try {
+        let port = await portfolioCollection.findOne(
+            {_id: new ObjectId(id)}
+        )
+        //console.log(port)
+        return port
+    } catch (e) {
+        throw e
+    }
+}
+
 export default {
     createPortfolio,
     deletePortfolio,
-    searchBySubject
+    searchBySubject,
+    getPortfolioById
 }

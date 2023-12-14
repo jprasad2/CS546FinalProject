@@ -1,4 +1,24 @@
 <a href="/user/createport">Create a portfolio</a> <br>
 <a href="../feed">go to feed</a> <br>
 <a href="/feed/search">go to search</a> <br>
-<a href="/user/logout">logout</a> <br>
+<a href="/user/editprofile">go to search</a> <br>
+<a href="/user/logout">logout</a> <br><br>
+
+{{title}} <br>
+
+{{#if User}}
+    <p class="profile">
+        Name: {{User.firstName}} {{User.lastName}} <br>
+        Username: {{User.Username}} <br>
+        Email: {{User.Email}} <br>
+        Bio: {{User.Bio}}
+    </p>
+{{/if}}
+
+{{#each Portfolio}}
+    <p class="portfolio">
+        Subject: {{Subject}} <br>
+        Create Date: {{createDate}} <br>
+        Last Update: {{lastUpdate}}
+    </p>
+{{/each}}

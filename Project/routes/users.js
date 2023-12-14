@@ -3,11 +3,29 @@ const router = Router()
 
 import validation from "../validation.js"
 import {userData} from "../data/index.js"
+import { portfolioData } from "../data/index.js"
 
 router
     .route('/profile')
     .get(async (req, res) => {
-        res.render("./users/profile", {title: "Profile"})
+        //console.log(req.session.user)
+        let portids = req.session.user.portfolioIDs
+        let ports = []
+        for (let i = 0; i < portids.length; i++)
+        {
+            ports.push(await portfolioData.getPortfolioById(portids[i]))
+        }
+        //console.log(ports)
+        res.render("./users/profile", {title: "Profile", User: req.session.user, Portfolio: ports})
+    })
+
+router
+    .route('/editprofile')
+    .get(async (req, res) => {
+        res.render("./users/editprofile", {title: "Edit Profile"})
+    })
+    .patch(async (req, res) => {
+        
     })
 
 router
