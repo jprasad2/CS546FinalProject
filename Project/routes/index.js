@@ -13,6 +13,7 @@ const constructorMethod = (app) => {
         /signup: the user creates an account
         /login: the user logs into their account
         /logout: the user logs out of their account
+        /createport: create portfolio
     */
     app.use('/user', userRoutes)
     /*
@@ -20,6 +21,7 @@ const constructorMethod = (app) => {
         /: entire feed for a logged in user
         /user: viewing another user's profile
         /user/:portfolioId: viewing another user's portfolio
+        /search
     */
     app.use('/feed', feedRoutes)
 

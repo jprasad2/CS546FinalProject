@@ -68,7 +68,7 @@ let firstName, lastName, Email, Age, Username, password
 let newUser
 try {
     newUser = await userData.registerUser(firstName = "Josh", lastName = "Prasad",
-Email = "email@email.com", Age = "21", Username = "username", password = "password")
+Email = "email@email.com", Age = "21", Username = "username", password = "Password123")
 } catch (e) {
     console.log(e)
 }
