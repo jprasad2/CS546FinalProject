@@ -1,5 +1,4 @@
 <h1>{{title}}</h1>
-<script src="../../public/js/clientValidation.js"></script>
 
 <p>Create New Account</p>
 
@@ -15,7 +14,7 @@
         <input type="text" name="usernameInput" id="usernameInput" placeholder="Patrick" autocomplete="off"/>
 
         <label for="dateInput" id="dateLabel">Date of Birth: </label>
-        <input type="date" name="party" id="dateInput"/>
+        <input type="date" name="date" id="dateInput"/>
 
         <label for="createEmailAddressInput" id="CreateEmailLabel">Email: </label>
         <input type="email" name="createEmailAddressInput" id="createEmailAddressInput" placeholder="email" autocomplete="off"/><br>
@@ -26,5 +25,7 @@
         <label for="confirmPasswordInput" id="confirmPasswordLabel">Confirm Password: </label>
         <input type="password" name="confirmPasswordInput" id="confirmPasswordInput" placeholder="confirm password" autocomplete="off"/>
 
-        <button type="submit">Login</button>
+        <button type="submit">Create Account</button>
     </form>
+    <div id="error" class="error">{{error}}</div>
+    <script src="../../public/js/clientValidation.js"></script>

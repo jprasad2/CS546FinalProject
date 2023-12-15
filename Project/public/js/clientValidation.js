@@ -1,13 +1,15 @@
+let signupform = document.getElementById("signup-form");
+console.log(signupform);
 const loginform = document.getElementById("login-form");
+console.log(loginform);
 const searchform = document.getElementById("search-form");
-
-const signupform = document.getElementById("signup-form");
 
 //login inputs
 const emailAddressInput = document.getElementById("emailAddressInput");
 const passwordInput = document.getElementById("passwordInput");
 //search input
 const searchInput = document.getElementById("searchInput");
+const error = document.getElementsByClassName("error");
 
 //signup inputs
 const firstNameInput = document.getElementById("firstNameInput");
@@ -48,20 +50,26 @@ if (searchform) {
 
 if (signupform) {
   signupform.addEventListener("submit", (event) => {
+    console.log("form submitted");
+    event.preventDefault();
+
     try {
-      checkStr(firstNameInput);
-      checkStr(lastNameInput);
-      checkStr(createEmailInput);
-      checkStr(usernameInput);
-      checkStr(createPasswordInput);
-      checkStr(confirmPasswordInput);
-      checkPassword(createPasswordInput);
-      checkDate(dateInput);
-      checkUsername(usernameInput);
-      if (createPasswordInput !== confirmPasswordInput)
+      checkStr(firstNameInput.value);
+      checkStr(lastNameInput.value);
+      checkStr(createEmailInput.value);
+      checkStr(usernameInput.value);
+      checkStr(createPasswordInput.value);
+      checkStr(confirmPasswordInput.value);
+      //checkPassword(createPasswordInput);
+      checkDate(dateInput.value);
+      checkUsername(usernameInput.value);
+      if (createPasswordInput.value !== confirmPasswordInput.value)
         throw "Error: passwords do not match";
+      signupform.submit();
     } catch (e) {
       event.preventDefault();
+      console.log(e);
+
       console.log("made it here");
       error.innerHTML = e;
     }
@@ -76,12 +84,26 @@ function checkStr(str) {
 }
 
 function checkDate(date) {
-  console.log(date);
+  let today = new Date();
+  let bday = new Date(date);
+  bday.setDate(bday.getDate() + 1);
+  let cutoff = new Date();
+  cutoff.setFullYear(today.getFullYear() - 13);
+  cutoff.setDate(cutoff.getDate() + 1);
+  if (bday > cutoff) {
+    console.error("invalid bday");
+    throw "error: must be atleast 13 years old to create an account";
+  }
   //complete this functionality
 }
 function checkUsername(username) {
   console.log(username);
-  //complete this functionalty
+  if (username.length < 2) {
+    throw "error: username must be atleast 3 characters";
+  }
+  if (username.length > 25) {
+    throw "error:username must be at most 15 characters";
+  }
 }
 
 function checkEmail(email) {

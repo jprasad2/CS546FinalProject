@@ -44,21 +44,30 @@ router
             password: "password"
         }
         */
-    /*
-       try {
-        let firstName = validation.checkName(req.body.username)
-        let lastName = validation.checkName(req.body.password)
-        let email = validation.checkEmail(req.body.email)
-        let username = validation.checkUsername(req.body.username)
-        let password =  validation.checkPassword(req.body.password)
 
-        let newUser = await userData.createUser(firstName, lastName, email, username, password)
-        return res.status(200).json(newUser)
-       } catch (e) {
-        console.log(e)
-        res.status(400).json({error: e})
-       }
-       */
+    try {
+      let firstName = validation.checkName(req.body.firstNameInput);
+      let lastName = validation.checkName(req.body.lastNameInput);
+      let email = validation.checkEmail(req.body.createEmailAddressInput);
+      let username = validation.checkUsername(req.body.usernameInput);
+      let password = validation.checkPassword(req.body.createPasswordInput);
+      let age = validation.getAge(req.body.date);
+
+      let newUser = await userData.registerUser(
+        firstName,
+        lastName,
+        email,
+        age,
+        username,
+        password
+      );
+      console.log(newUser);
+      return res.redirect("login");
+      return res.status(200).json(newUser);
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ error: e });
+    }
   });
 
 router
