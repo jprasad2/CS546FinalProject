@@ -1,4 +1,4 @@
-{{title}}
+{{title}} <br>
 
 <a href="../search">back to search</a> <br>
 <a href="../">go to feed</a> <br>
@@ -14,6 +14,11 @@
         Bio: {{User.Bio}} <br>
     </div>
 {{/if}}
+<form action="/feed/user/{{User.Username}}" method="POST" id="follow-form">
+<button type="submit">Follow</button>
+</form>
+{{followed}}
+<div id="error" class="error">{{error}}</div>
 
 {{#each Portfolio}}
     <div class="portfolio">
@@ -25,4 +30,3 @@
     </div>
 {{/each}}
 
-<div id="error" class="error">{{error}}</div>
