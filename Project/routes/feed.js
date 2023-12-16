@@ -16,9 +16,24 @@ router
     })
 
 router
-    .route('/user/:user')
+    .route('/user/:Username')
     .get(async(req, res) => {
-        
+        req.params.Username = validation.checkUsername(req.params.Username)
+        //console.log(req.params.Username)
+        let user
+        try {
+            user = await userData.getByUsername(req.params.Username)
+        } catch (e) {
+            return res.render("./users/viewuser", {title: "User Profile", error: e})
+        }
+        console.log(user)
+        let portids = user.portfolioIDs
+        let ports = []
+        for (let i = 0; i < portids.length; i++) {
+            ports.push(await portfolioData.getPortfolioById(portids[i]));
+          }
+
+        res.render("./users/viewuser", {title: "User Profile", User: user, Portfolio: ports})
     })
 
 router
@@ -28,7 +43,9 @@ router
     })
     .post(async (req, res) => {
         //search
-        req.body.searchInput = validation.checkStr(req.body.searchInput)
+        //don't validate because string can be an empty string
+        //and it will return all
+        //req.body.searchInput = validation.checkStr(req.body.searchInput)
         try {
             let searchResults
             if (req.body.searchType == 'username')

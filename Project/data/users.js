@@ -53,6 +53,9 @@ const registerUser = async (
   if (!Username) throw "Error: username must be supplied";
   //Finish error checking for email age, username, and password
 
+  Email = Email.toLowerCase()
+  Username = Username.toLowerCase()
+
   Password = Password.trim();
 
   //create user and add to database
@@ -178,14 +181,26 @@ const searchByUser = async (Username) => {
     .find({ Username: { $regex: Username, $options: "i" } })
     .toArray();
   //https://dev.to/sagnikbanerjeesb/partial-text-search-on-mongo-46j3
-  console.log(usersMatch);
+  //console.log(usersMatch);
   if (!usersMatch) throw "Unable to find users";
   return usersMatch;
 };
+
+const getByUsername = async (Username) => {
+  const userCollection = await users()
+  let usersMatch
+  usersMatch = await userCollection.findOne(
+    {Username: Username}
+  )
+  console.log(usersMatch)
+  if (!usersMatch) throw "Unable to find user";
+  return usersMatch;
+}
 
 export default {
   registerUser,
   updateUser,
   loginUser,
   searchByUser,
+  getByUsername
 };
