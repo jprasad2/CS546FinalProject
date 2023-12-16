@@ -7,20 +7,22 @@
 {{title}} <br>
 
 {{#if User}}
-    <p class="profile">
-        {{User.profilePicture}} <br>
+    <div class="profile">
+        <img src="../public/img/{{User.profilePicture}}" alt="profile image" width="100" height="100"><br>
         Name: {{User.firstName}} {{User.lastName}} <br>
         Username: {{User.Username}} <br>
         Email: {{User.Email}} <br>
         Bio: {{User.Bio}} <br>
         Age: {{User.Age}}
-    </p>
+    </div>
 {{/if}}
 
 {{#each Portfolio}}
-    <p class="portfolio">
-        Subject: {{Subject}} <br>
-        Create Date: {{createDate}} <br>
-        Last Update: {{lastUpdate}}
-    </p>
+    <div class="portfolio">
+        <h1>{{Subject}}</h1> <br>
+        <p>
+            Create Date: {{createDate}} <br>
+            Last Update: {{lastUpdate}} <br>
+        </p>
+    </div>
 {{/each}}
