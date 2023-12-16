@@ -70,7 +70,7 @@ const registerUser = async (
     Following: [],
     portfolioIDs: [],
     Bio: "",
-    profilePicture: "", //start by putting a path to default profile picture here
+    profilePicture: "img1.jpg", //default profile picture; full path is done on the html for displaying
   };
 
   const userCollection = await users();

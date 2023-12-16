@@ -1,0 +1,27 @@
+
+html {
+    background-color: aliceblue;
+    border: 1cm;
+    border-width: 15px;
+    border-style: groove;
+    border-color:slategray;
+}
+
+.portfolio {
+    background-color: lightgray;
+}
+
+.profile {
+    border-bottom: 5px;
+    border-color:rgb(0, 45, 90);
+    border-style: double;
+}
+
+button:hover {
+    background-color: black;
+    color: azure;
+    outline-color: rgb(255, 255, 255);
+    outline-width: 1px;
+    outline-style: ridge;
+    cursor:pointer;
+}
