@@ -16,13 +16,7 @@ router
     })
 
 router
-    .route('/user')
-    .get(async(req, res) => {
-        
-    })
-
-router
-    .route('/user/:portfolioId')
+    .route('/user/:user')
     .get(async(req, res) => {
         
     })

@@ -5,6 +5,10 @@ import validation from "../validation.js";
 import { userData } from "../data/index.js";
 import { portfolioData } from "../data/index.js";
 
+router.route("/").get(async (req, res) => {
+  res.status(404).render('./error/error', {type: 'error-not-found', error: 'Not found', title: 'Error Page'})
+})
+
 router.route("/profile").get(async (req, res) => {
   //console.log(req.session.user)
   let portids = req.session.user.portfolioIDs;
