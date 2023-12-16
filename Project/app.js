@@ -42,14 +42,14 @@ app.use(async (req, res, next) => {
         return next()
     else {
         if (req.session.user)
-            return res.redirect('/feed/feed')
+            return res.redirect('/feed')
     }
     return next()
 });
 
 app.use('/user/login', (req, res, next) => {
     if (req.session.user)
-        return res.redirect('/feed/feed')
+        return res.redirect('/feed')
     else {
 
     }
@@ -58,7 +58,7 @@ app.use('/user/login', (req, res, next) => {
 
 app.use('/user/signup', (req, res, next) => {
     if (req.session.user)
-        return res.redirect('/feed/feed')
+        return res.redirect('/feed')
     next()
 })
 

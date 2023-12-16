@@ -1,0 +1,26 @@
+{{title}}
+
+<a href="../search">back to search</a> <br>
+<a href="../">go to feed</a> <br>
+<a href="/user/profile">Go to profile</a> <br>
+
+
+{{#if User}}
+    <p class="profile">
+        {{User.profilePicture}} <br>
+        Name: {{User.firstName}} {{User.lastName}} <br>
+        Username: {{User.Username}} <br>
+        Email: {{User.Email}} <br>
+        Bio: {{User.Bio}} <br>
+    </p>
+{{/if}}
+
+{{#each Portfolio}}
+    <p class="portfolio">
+        Subject: {{Subject}} <br>
+        Create Date: {{createDate}} <br>
+        Last Update: {{lastUpdate}}
+    </p>
+{{/each}}
+
+<div id="error" class="error">{{error}}</div>

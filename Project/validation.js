@@ -5,10 +5,20 @@ function checkName(str) {
 }
 
 function checkEmail(str) {
+  if (!str) throw "Error with email"
+  if (typeof str != "string") throw "Error with email"
+  str = str.trim()
+
+  str = str.toLowerCase()
   return str;
 }
 
 function checkUsername(str) {
+  if (!str) throw "Error with username"
+  if (typeof str != "string") throw "Error with username"
+  str = str.trim()
+  if (str.length == 0) throw "Error with username"
+  str = str.toLowerCase()
   return str;
 }
 
@@ -17,8 +27,13 @@ function checkPassword(str) {
 }
 
 function checkStr(str) {
+  if (!str) throw "Error with string"
+  if (typeof str != "string") throw "Error with string"
+  str = str.trim()
+  if (str.length == 0) throw "Error with string"
   return str;
 }
+
 function getAge(date) {
   let bday = new Date(date);
   bday.setDate(bday.getDate() + 1);
