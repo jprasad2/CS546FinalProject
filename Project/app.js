@@ -42,11 +42,67 @@ app.use(async (req, res, next) => {
         return next()
     else {
         if (req.session.user)
-            return res.redirect('/feed')
+            return res.redirect('/feed/feed')
     }
     return next()
 });
 
+app.use('/user/login', (req, res, next) => {
+    if (req.session.user)
+        return res.redirect('/feed/feed')
+    else {
+
+    }
+    next()
+})
+
+app.use('/user/signup', (req, res, next) => {
+    if (req.session.user)
+        return res.redirect('/feed/feed')
+    next()
+})
+
+app.use('/user/profile', (req, res, next) => {
+    if (!req.session.user)
+        return res.redirect('/')
+    next()
+})
+
+app.use('/user/editprofile', (req, res, next) => {
+    if (!req.session.user)
+        return res.redirect('/')
+    next()
+})
+
+app.use('/user/createport', (req, res, next) => {
+    if (!req.session.user)
+        return res.redirect('/')
+    next()
+})
+
+app.use('/user/logout', (req, res, next) => {
+    if (!req.session.user)
+        return res.redirect('/')
+    next()
+})
+
+app.use('/feed', (req, res, next) => {
+    if (!req.session.user)
+        return res.redirect('/')
+    next()
+})
+
+app.use('/feed/search', (req, res, next) => {
+    if (!req.session.user)
+        return res.redirect('/')
+    next()
+})
+
+app.use('/feed/user/:user', (req, res, next) => {
+    if (!req.session.user)
+        return res.redirect('/')
+    next()
+})
 
 
 //end middleware***********************
