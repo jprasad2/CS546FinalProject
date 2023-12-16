@@ -1,3 +1,20 @@
 <a href="/user/profile">go to profile</a> <br>
 <a href="/feed/search">go to search</a> <br>
 <a href="/user/logout">logout</a> <br>
+
+{{#if Feed}}
+    <h1>{{Title}}</h1>
+    {{#each Feed}}
+        <div class="portfolio">
+            <h1>{{Subject}} - {{Username}}</h1> <br>
+            <p>
+                Create Date: {{createDate}} <br>
+                Last Update: {{lastUpdate}} <br>
+            </p>
+        </div>
+    {{/each}}
+{{else}}
+    <h1>{{Title}}</h1>
+    <p>You're not following any users! Try searching for some: </p>
+    <a href="/feed/search">go to search</a> <br>
+{{/if}}
