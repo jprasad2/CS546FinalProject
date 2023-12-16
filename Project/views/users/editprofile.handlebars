@@ -2,11 +2,13 @@
 
 {{title}} <br>
 
+{{updated}} <br>
+
 <p>Select checkbox to update bio, profile pic, or both</p>
-<form action="/user/editprofile" method="PATCH" id="update-form" autocomplete="off">
-<input type="checkbox" id="updateBio" name="updateBio" value="Update Bio">
+<form action="/user/editprofile" method="POST" id="update-form" autocomplete="off">
+<input type="checkbox" id="updateBio" name="updateBio" value="UpdateBio">
 <label for="updateBio"> Update Bio</label><br>
-<input type="checkbox" id="updatePic" name="updatePic" value="Update Pic">
+<input type="checkbox" id="updatePic" name="updatePic" value="UpdatePic">
 <label for="updatePic">Update Pic</label><br><br><br>
 
 <p>Update your bio</p>
@@ -15,12 +17,19 @@
 
 <br><br><br>
 <p>Update your profile picture</p><br>
-<input type="radio" id="radioPic" name="radioPic" value="picture1" checked>
-<label for="radioPic1"><img src="../../public/img/img1.jpg" alt="img1" width="100" height="100"></label><br>
-<input type="radio" id="radioPic" name="radioPic" value="picture2">
-<label for="radioPic1"><img src="../../public/img/img2.jpg" alt="img2" width="100" height="100"></label><br>
-<input type="radio" id="radioPic" name="radioPic" value="picture3">
-<label for="radioPic1"><img src="../../public/img/img3.jpg" alt="img3" width="100" height="100"></label><br>
-<input type="radio" id="radioPic" name="radioPic" value="picture4">
-<label for="radioPic1"><img src="../../public/img/img4.jpg" alt="img4" width="100" height="100"></label><br>
+<input type="radio" id="radioPic" name="radioPic" value="img1.jpg" checked>
+<label for="radioPic"><img src="../../public/img/img1.jpg" alt="img1" width="100" height="100"></label><br>
+<input type="radio" id="radioPic" name="radioPic" value="img2.jpg">
+<label for="radioPic"><img src="../../public/img/img2.jpg" alt="img2" width="100" height="100"></label><br>
+<input type="radio" id="radioPic" name="radioPic" value="img3.jpg">
+<label for="radioPic"><img src="../../public/img/img3.jpg" alt="img3" width="100" height="100"></label><br>
+<input type="radio" id="radioPic" name="radioPic" value="img4.jpg">
+<label for="radioPic"><img src="../../public/img/img4.jpg" alt="img4" width="100" height="100"></label><br>
+
+<button type="submit">Submit</button>
 </form><br><br><br>
+
+<div id="error" class="error">{{error}}</div><br>
+<!--path needs ../ before public because we have the handlebars in a user folder-->
+<!--without it, in the console it shows an error 404 not found-->
+<script src="../public/js/clientValidation.js"></script>
