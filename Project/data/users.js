@@ -3,6 +3,8 @@
 import { users } from "../config/mongoCollections.js";
 import bcrypt from "bcryptjs";
 const saltRounds = 16;
+import { ObjectId } from "mongodb"
+
 
 /*
 User Schema
@@ -224,11 +226,21 @@ const addFollow = async (currentUsername, Username) => {
   if (userUpdate) return ["Successfully Followed", userUpdate]
 }
 
+const getById = async (id) => {
+  const userCollection = await users()
+  const user = await userCollection.findOne(
+    {_id: new ObjectId(id)}
+  )
+  if (!user) throw "user does not exist"
+  return user
+}
+
 export default {
   registerUser,
   updateUser,
   loginUser,
   searchByUser,
   getByUsername,
-  addFollow
+  addFollow,
+  getById
 };

@@ -12,7 +12,24 @@ router
     .route('/')
     .get(async(req, res) => {
         //get the current users feed
-        res.render("./users/feed", {title: "Feed"})
+        if (req.session.user.Following.length == 0)
+            res.render("./users/feed", {title: "Feed"})
+        else
+        {
+            let user
+            let ports = []
+            for (let i = 0; i < req.session.user.Following.length; i++)
+            {
+                user = await userData.getById(req.session.user.Following[i])
+                let portids = user.portfolioIDs
+                for (let j = 0; j < portids.length; j++) {
+                    ports.push(await portfolioData.getPortfolioById(portids[j]));
+                    ports[ports.length - 1].Username = user.Username
+                  }
+            }
+
+            res.render("./users/feed", {title: "Feed", Feed: ports})
+        }
     })
 
 router
