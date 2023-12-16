@@ -82,9 +82,56 @@ const registerUser = async (
   return { insertedUser: true };
 };
 
-const updateUser = async () => {
+const updateUser = async (array) => {
   //input validation
   //update user
+  /*
+  array:
+    index 0: 0 if update bio and pic, 1 if bio, 2 if pic
+    index 1: user's email for user to be updated
+    index 2: { fields to update } {Bio, Pic} or {Bio} or {Pic}
+  */
+    const userCollection = await users()
+    let user
+    if (array[0] == 0)
+    {
+        
+        user = await userCollection.findOneAndUpdate(
+        {Email: {$regex: array[1], $options: "i"}},
+            {
+                $set: {Bio: array[2].updateBio, profilePicture: array[2].updatePic}
+            },
+        {
+            returnDocument: "after"
+        })
+    }
+    else if (array[0] == 1)
+    {
+        user = await userCollection.findOneAndUpdate(
+            {Email: {$regex: array[1], $options: "i"}},
+                {
+                    $set: {Bio: array[2].updateBio}
+                },
+            {
+                returnDocument: "after"
+            })
+    }
+    else if (array[0] == 2)
+    {
+        user = await userCollection.findOneAndUpdate(
+            {Email: {$regex: array[1], $options: "i"}},
+                {
+                    $set: {profilePicture: array[2].updatePic}
+                },
+            {
+                returnDocument: "after"
+            })
+    }
+    else throw "Problem with updating profile"
+    
+    //console.log(user)
+    return user
+    
 };
 
 const loginUser = async (Email, password) => {

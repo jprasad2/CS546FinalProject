@@ -25,7 +25,52 @@ router
   .get(async (req, res) => {
     res.render("./users/editprofile", { title: "Edit Profile" });
   })
-  .patch(async (req, res) => {});
+  .post(async (req, res) => {
+    //console.log("edit profile")
+    let toUpdate = []
+    try {
+    if (req.body.updateBio && req.body.updatePic)
+    {
+        //console.log("update bio and pic")
+        //console.log(req.session.user.Email)
+        //console.log(req.body.radioPic)
+        toUpdate = [0, req.session.user.Email, {updateBio: req.body.bioInput, updatePic: req.body.radioPic}]
+        let updatedUser = await userData.updateUser(toUpdate)
+        if (updatedUser)
+        {
+            req.session.user.Bio = updatedUser.Bio
+            //console.log(req.session.user.Bio)
+            req.session.user.profilePicture = updatedUser.profilePicture
+            res.render('./users/editprofile', { title: "Edit Profile", updated: "PROFILE HAS BEEN UPDATED" })
+        }
+    }
+    else if (req.body.updateBio)
+    {
+        //console.log("update bio")
+        toUpdate = [1, req.session.user.Email, {updateBio: req.body.bio}]
+        let updatedUser = await userData.updateUser(toUpdate)
+        if (updatedUser)
+        {
+            req.session.user.Bio = updatedUser.Bio
+            //console.log(req.session.user.Bio)
+            res.render('./users/editprofile', { title: "Edit Profile", updated: "PROFILE HAS BEEN UPDATED" })
+        }
+    }
+    else if (req.body.updatePic)
+    {
+        //console.log("update pic")
+        toUpdate = [2, req.session.user.Email, {updatePic: req.body.radioPic}]
+        let updatedUser = await userData.updateUser(toUpdate)
+        if (updatedUser)
+        {
+            req.session.user.profilePicture = updatedUser.profilePicture
+            res.render('./users/editprofile', { title: "Edit Profile", updated: "PROFILE HAS BEEN UPDATED" })
+        }
+    }
+    } catch (e) {
+        res.render('./users/editprofile', { title: "Edit Profile", error: e })
+    }
+  });
 
 router
   .route("/signup")
