@@ -17,6 +17,10 @@ router.route("/profile").get(async (req, res) => {
     ports.push(await portfolioData.getPortfolioById(portids[i]));
   }
   //console.log(ports)
+  /*
+  using a function getPostsById, add ports.Posts = [getPostsById(postids)]
+  then in the frotend it can be displayed using {{#each Post}}
+  */
   res.render("./users/profile", {
     title: "Profile",
     User: req.session.user,
@@ -115,7 +119,7 @@ router
       return res.status(200).json(newUser);
     } catch (e) {
       console.log(e);
-      res.status(400).json({ error: e });
+      res.status(400).render("./users/signup", { title: "Signup", error: e });
     }
   });
 

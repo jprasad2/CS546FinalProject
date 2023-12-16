@@ -75,8 +75,11 @@ const registerUser = async (
 
   const userCollection = await users();
 
-  const user = await userCollection.findOne({ Email: Email });
+  let user = await userCollection.findOne({ Email: Email });
   if (user) throw "Error: Email is already in use";
+
+  user = await userCollection.findOne({ Username: Username });
+  if (user) throw "Error: Username is already in use";
 
   const insertInfo = await userCollection.insertOne(newUser);
   if (!insertInfo.acknowledged || !insertInfo.insertedId)
@@ -192,9 +195,33 @@ const getByUsername = async (Username) => {
   usersMatch = await userCollection.findOne(
     {Username: Username}
   )
-  console.log(usersMatch)
+  //console.log(usersMatch)
   if (!usersMatch) throw "Unable to find user";
   return usersMatch;
+}
+
+const addFollow = async (currentUsername, Username) => {
+  const userCollection = await users()
+  let currUser = await getByUsername(currentUsername)
+  let currFollow = currUser.Following
+  let followUser = await getByUsername(Username)
+  //console.log(followUser)
+  const AlreadyFollowing = await userCollection.findOne(
+    {Following: {$regex: followUser._id.toString()}}
+  )
+  //console.log("here2")
+  if (AlreadyFollowing) throw "Already following this user"
+  currFollow.push(followUser._id.toString())
+  let userUpdate = await userCollection.findOneAndUpdate(
+    {Username: currentUsername},
+    {
+      $set: {Following: currFollow}
+    },
+    {
+      returnDocument: "after"
+    }
+  )
+  if (userUpdate) return ["Successfully Followed", userUpdate]
 }
 
 export default {
@@ -202,5 +229,6 @@ export default {
   updateUser,
   loginUser,
   searchByUser,
-  getByUsername
+  getByUsername,
+  addFollow
 };

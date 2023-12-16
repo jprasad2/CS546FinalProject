@@ -35,6 +35,31 @@ router
 
         res.render("./users/viewuser", {title: "User Profile", User: user, Portfolio: ports})
     })
+    .post(async(req, res) => {
+        req.params.Username = validation.checkUsername(req.params.Username)
+        let userFollowed
+
+        let user
+        try {
+            user = await userData.getByUsername(req.params.Username)
+        } catch (e) {
+            return res.render("./users/viewuser", {title: "User Profile", error: e})
+        }
+        console.log(user)
+        let portids = user.portfolioIDs
+        let ports = []
+        for (let i = 0; i < portids.length; i++) {
+            ports.push(await portfolioData.getPortfolioById(portids[i]));
+          }
+
+        try {
+            userFollowed = await userData.addFollow(req.session.user.Username, req.params.Username)
+            req.session.user.Following = userFollowed[1].Following
+            return res.render("./users/viewuser", {title: "User Profile", User: user, Portfolio: ports, followed: userFollowed[0]})
+        } catch (e) {
+            return res.render("./users/viewuser", {title: "User Profile", User: user, Portfolio: ports, error: e})
+        }
+    })
 
 router
     .route('/search')
