@@ -124,10 +124,17 @@ const getPortfolioById = async (id) => {
   }
 };
 
+const getAllPortfolios = async (id) => {
+  const portfolioCollection = await portfolios();
+  let portfolioList = await portfolioCollection.find({}).toArray();
+  return portfolioList;
+};
+
 export default {
   createPortfolio,
   updatePortfolio,
   deletePortfolio,
   searchBySubject,
   getPortfolioById,
+  getAllPortfolios,
 };

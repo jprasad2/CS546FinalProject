@@ -4,6 +4,7 @@ const router = Router();
 import validation from "../validation.js";
 import { userData } from "../data/index.js";
 import { portfolioData } from "../data/index.js";
+import { postData } from "../data/index.js";
 
 router.route("/").get(async (req, res) => {
   res.status(404).render("./error/error", {
@@ -14,19 +15,64 @@ router.route("/").get(async (req, res) => {
 });
 
 router
+  .route("/createpost/:id")
+  .get(async (req, res) => {
+    res.render("./users/createpost", {
+      title: "Create Post",
+      id: req.params.id,
+    });
+  })
+  .post(async (req, res) => {
+    let createpost = null;
+    console.log(typeof req.params.id, " ", req.params.id);
+
+    try {
+      if (req.body.commentsAllowed) {
+        createpost = await postData.createPost(
+          req.body.postTitle,
+          req.body.postUrlInput,
+          req.body.postDescriptionInput,
+          true,
+          req.params.id
+        );
+      } else {
+        createpost = await postData.createPost(
+          req.body.postTitle,
+          req.body.postUrlInput,
+          req.body.postDescriptionInput,
+          false,
+          req.params.id
+        );
+      }
+      if (!createpost) {
+        throw "error: failed to create post";
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    console.log(createpost);
+    res.redirect("/user/profile");
+  });
+
+router
   .route("/editportfolio/:id")
   .get(async (req, res) => {
     console.log("made it to route");
     try {
-      let posts = [
-        { PostId: "657e6d9b72110fe95ed8f041", postTitle: "myfirstpost" },
-        { PostId: "657e6d9b72110fe95ed8f042", postTitle: "mysecondpost" },
-        { PostId: "657e6d9b72110fe95ed8f043", postTitle: "mythirdpost" },
-      ];
+      let posts = [];
       let portfolio = await portfolioData.getPortfolioById(req.params.id);
       console.log(portfolio);
       if (portfolio.Posts.length !== 0) {
         posts = portfolio.Posts;
+        posts = posts.map((x) => ({
+          PostId: x._id.toString(),
+          postTitle: "will edit tthis later",
+        }));
+        for (let i = 0; i < posts.length; i++) {
+          let post = await postData.getPostsById(posts[i].PostId);
+          posts[i].postTitle = post.Title;
+        }
+        console.log(posts);
       }
       res.render("./users/editport", {
         title: `${portfolio.Subject}`,

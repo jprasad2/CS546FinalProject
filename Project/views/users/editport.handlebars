@@ -2,6 +2,10 @@
 
 <h1>Edit '{{title}}' portfolio</h1>
 
+ <a href="/user/createPost/{{id}}" id="newPostButon">
+    <button type="button">Create Post</button>
+</a>
+
 <form  id='editPortfolio' action="/user/editportfolio/{{id}}" method="POST">
     <label for="updateSubjectInput" id="updateSubjectLabel">Update Subject</label>
     <input type="text" id="updateSubjectInput" name='subject' placeholder="{{subject}}" value='{{subject}}' required>
@@ -18,4 +22,5 @@
     <input type="hidden" name="portId" value="{{id}}" id="portId">
     <button type="submit">Save Changes</button>
 </form>
+
 <script src="../../public/js/clientValidation.js"></script>
