@@ -1,1 +1,12 @@
 <a href="/user/profile">Cancel and back to profile</a>
+
+<form action="/user/createport" method="POST" id="createport-form">
+    <label for="subjectInput" id="subjectLabel">Subject: </label>
+    <input type="text" name="subjectInput" id="subjectInput" placeholder="art">
+
+    <button type="submit">Create Portfolio</button>
+</form>
+
+<div id="error" class="error">{{error}}</div>
+{{Created}}
+<script src="public/js/clientValidation.js"></script>

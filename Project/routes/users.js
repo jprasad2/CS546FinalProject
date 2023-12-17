@@ -196,11 +196,29 @@ router
     }
   });
 
-router.route("/createport").get((req, res) => {
-  res.render("./users/createport", { title: "Create Portfolio" });
-});
+router.route("/createport")
+    .get(async (req, res) => {
+      res.render("./users/createport", { title: "Create Portfolio" });
+    })
+    .post(async (req, res) => {
+      req.body.subjectInput = validation.checkStr(req.body.subjectInput)
+      try {
+        let portInfo = await portfolioData.createPortfolio(req.body.subjectInput, new Date(), req.session.user.Email)
+        if (portInfo)
+        {
+          let userInfo = await userData.getByUsername(req.session.user.Username)
+          if (userInfo) {
+            req.session.user.portfolioIDs = userInfo.portfolioIDs;
+            return res.render("./users/createport", {title: "Create Portfolio", Created: "Portfolio created"})
+          }
+        }
+      } catch (e) {
+        return res.status(400).render("./users/createport", {title: "Create Portfolio", error: e})
+      }
+    })
 
 router.route("/logout").get(async (req, res) => {
+  req.session.destroy()
   res.render("./users/logout", { title: "Logout" });
 });
 
