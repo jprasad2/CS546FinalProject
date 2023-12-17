@@ -4,6 +4,7 @@ const router = Router();
 import validation from "../validation.js";
 import { userData } from "../data/index.js";
 import { portfolioData } from "../data/index.js";
+import { postData } from "../data/index.js";
 
 router.route("/").get(async (req, res) => {
   res.status(404).render("./error/error", {
@@ -12,6 +13,39 @@ router.route("/").get(async (req, res) => {
     title: "Error Page",
   });
 });
+
+router
+  .route("/createpost/:id")
+  .get(async (req, res) => {
+    console.log("hit this route");
+    console.log(req.params);
+    res.render("./users/createpost", {
+      title: "Create Post",
+      id: req.params.id,
+    });
+  })
+  .post(async (req, res) => {
+    console.log(req.body);
+    let createpost = null;
+    try {
+      if (req.body.commentsAllowed) {
+        createpost = await postData.createPost(
+          req.body.postTitle,
+          true,
+          req.params.id
+        );
+      }
+    } catch (e) {
+      createpost = await postData.createPost(
+        req.body.postTitle,
+        false,
+        req.params.id
+      );
+    }
+    console.log(createpost);
+
+    res.redirect("/user/profile");
+  });
 
 router
   .route("/editportfolio/:id")
@@ -27,6 +61,15 @@ router
       console.log(portfolio);
       if (portfolio.Posts.length !== 0) {
         posts = portfolio.Posts;
+        posts = posts.map((x) => ({
+          PostId: x._id.toString(),
+          postTitle: "will edit tthis later",
+        }));
+        for (let i = 0; i < posts.length; i++) {
+          let post = await postData.getPostsById(posts[i].PostId);
+          posts[i].postTitle = post.Title;
+        }
+        console.log(posts);
       }
       res.render("./users/editport", {
         title: `${portfolio.Subject}`,
