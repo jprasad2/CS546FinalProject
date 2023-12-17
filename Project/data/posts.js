@@ -17,7 +17,13 @@ deletePost will delete a post and update the portfolio lastUpdate
 updatePost will update a post and update the portfolio lastUpdate
 */
 
-const createPost = async (title, commentsAllowed, portfolioId) => {
+const createPost = async (
+  title,
+  url,
+  description,
+  commentsAllowed,
+  portfolioId
+) => {
   //input validation
   //create post and add to database
   //add post to portfolio
@@ -31,6 +37,8 @@ const createPost = async (title, commentsAllowed, portfolioId) => {
 
   let newPost = {
     Title: title,
+    Url: url,
+    Description: description,
     lastUpdate: formattedDate,
     createDate: formattedDate,
     Comments: [],
@@ -70,6 +78,18 @@ const getPostsById = async (id) => {
   }
 };
 
+const getAllPosts = async () => {
+  const postCollection = await posts();
+  let postList = await postCollection.find({}).toArray();
+  console.log(postList);
+  return postList;
+
+  //   postList = postList.map((item) => {
+  //     item._id = item._id;
+  //   });
+  //   return postList;
+};
+
 const deletePost = async () => {};
 
 const updatePost = async () => {};
@@ -77,6 +97,7 @@ const updatePost = async () => {};
 export default {
   createPost,
   getPostsById,
+  getAllPosts,
   deletePost,
   updatePost,
 };
