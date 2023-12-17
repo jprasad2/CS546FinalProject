@@ -66,20 +66,84 @@ const updatePortfolio = async (id, Subject, PostIds, cumulativeRating) => {
       month: "numeric",
       day: "numeric",
     });
+    let updatedPort = null;
+    console.log(PostIds);
+    if (typeof PostIds === "string") {
+      PostIds = [PostIds];
+    }
 
-    let updatedPort = await portfolioCollection.findOneAndUpdate(
-      { _id: portfolioObjectId },
-      {
-        $set: {
-          Subject: Subject,
-          lastUpdate: formattedDate,
-          Posts: PostIds.map((postId) => ({ _id: new ObjectId(postId) })),
-        },
-      },
-      {
-        returnDocument: "after",
+    if (PostIds === null) {
+      if (Subject.trim().length === 0) {
+        updatedPort = await portfolioCollection.findOneAndUpdate(
+          { _id: portfolioObjectId },
+          {
+            $set: {
+              lastUpdate: formattedDate,
+              Posts: [],
+            },
+          },
+          {
+            returnDocument: "after",
+          }
+        );
+      } else {
+        updatedPort = await portfolioCollection.findOneAndUpdate(
+          { _id: portfolioObjectId },
+          {
+            $set: {
+              Subject: Subject,
+              lastUpdate: formattedDate,
+              Posts: [],
+            },
+          },
+          {
+            returnDocument: "after",
+          }
+        );
       }
-    );
+      updatedPort = await portfolioCollection.findOneAndUpdate(
+        { _id: portfolioObjectId },
+        {
+          $set: {
+            lastUpdate: formattedDate,
+            Posts: [],
+          },
+        },
+        {
+          returnDocument: "after",
+        }
+      );
+    } else {
+      if (Subject.trim().length === 0) {
+        updatedPort = await portfolioCollection.findOneAndUpdate(
+          { _id: portfolioObjectId },
+          {
+            $set: {
+              lastUpdate: formattedDate,
+              Posts: PostIds.map((postId) => ({ _id: new ObjectId(postId) })),
+            },
+          },
+          {
+            returnDocument: "after",
+          }
+        );
+      } else {
+        updatedPort = await portfolioCollection.findOneAndUpdate(
+          { _id: portfolioObjectId },
+          {
+            $set: {
+              Subject: Subject,
+              lastUpdate: formattedDate,
+              Posts: PostIds.map((postId) => ({ _id: new ObjectId(postId) })),
+            },
+          },
+          {
+            returnDocument: "after",
+          }
+        );
+      }
+    }
+
     if (!updatedPort) {
       throw "error: update Portfolio not successful";
     }

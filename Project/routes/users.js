@@ -84,11 +84,22 @@ router
     }
   })
   .post(async (req, res) => {
-    portfolioData.updatePortfolio(
-      req.body.portId,
-      req.body.subject,
-      req.body.postId
-    );
+    try {
+      console.log(req.body);
+      if (req.body.postId) {
+        portfolioData.updatePortfolio(
+          req.body.portId,
+          req.body.subject,
+          req.body.postId
+        );
+      } else {
+        portfolioData.updatePortfolio(req.body.portId, req.body.subject, null);
+      }
+    } catch (e) {
+      console.log(e);
+      res.redirect("/user/profile");
+    }
+
     res.redirect("/user/profile");
   });
 
@@ -242,35 +253,11 @@ router
     }
   });
 
-router.route("/createport")
-    .get(async (req, res) => {
-      res.render("./users/createport", { title: "Create Portfolio" });
-    })
-    .post(async (req, res) => {
-      console.log("here")
-      req.body.subjectInput = validation.checkStr(req.body.subjectInput)
-      console.log(req.body.subjectInput)
-      if (!req.body.subjectInput.length)
-          throw "Must name the portfolio"
-      try {
-        if (req.body.subjectInput.length == 0)
-          throw "Must name the portfolio"
-        let portInfo = await portfolioData.createPortfolio(req.body.subjectInput, new Date(), req.session.user.Email)
-        if (portInfo)
-        {
-          let userInfo = await userData.getByUsername(req.session.user.Username)
-          if (userInfo) {
-            req.session.user.portfolioIDs = userInfo.portfolioIDs;
-            return res.render("./users/createport", {title: "Create Portfolio", Created: "Portfolio created"})
-          }
-        }
-      } catch (e) {
-        return res.status(400).render("./users/createport", {title: "Create Portfolio", error: e})
-      }
-    })
+router.route("/createport").get((req, res) => {
+  res.render("./users/createport", { title: "Create Portfolio" });
+});
 
 router.route("/logout").get(async (req, res) => {
-  req.session.destroy()
   res.render("./users/logout", { title: "Logout" });
 });
 
