@@ -4,7 +4,7 @@ const loginform = document.getElementById("login-form");
 console.log(loginform);
 const searchform = document.getElementById("search-form");
 
-const createportform = document.getElementById("createport-form")
+const createportform = document.getElementById("createport-form");
 
 //login inputs
 const emailAddressInput = document.getElementById("emailAddressInput");
@@ -27,9 +27,13 @@ const editPortfolio = document.getElementById("editPortfolio");
 const deleteButtons = document.querySelectorAll(".deletePostBtn");
 const postsToDeleteInput = document.getElementById("postsToDelete");
 
-const subjectInput = document.getElementById("subjectInput")
-const errorDiv = document.getElementById("error")
-const createdDiv = document.getElementById("created")
+//
+const subjectInput = document.getElementById("subjectInput");
+const errorDiv = document.getElementById("error");
+const createdDiv = document.getElementById("created");
+
+//view portfolio
+const clickablePortfolios = document.getElementsByClassName("portfolio");
 
 if (loginform) {
   loginform.addEventListener("submit", (event) => {
@@ -63,14 +67,14 @@ if (searchform) {
 if (createportform) {
   createportform.addEventListener("submit", (event) => {
     try {
-      checkStr(subjectInput.value)
+      checkStr(subjectInput.value);
       //createportform.submit()
     } catch (e) {
-      event.preventDefault()
-      errorDiv.innerHTML = e
-      createdDiv.innerHTML = ""
+      event.preventDefault();
+      errorDiv.innerHTML = e;
+      createdDiv.innerHTML = "";
     }
-  })
+  });
 }
 
 if (signupform) {
@@ -163,4 +167,11 @@ if (editPortfolio) {
       postElement.remove();
     });
   });
+}
+
+if (clickablePortfolios) {
+  console.log("hi");
+  for (const clickablePortfolio of clickablePortfolios) {
+    clickablePortfolio.addEventListener("click", (event) => {});
+  }
 }
