@@ -20,6 +20,11 @@ const createPasswordInput = document.getElementById("createPasswordInput");
 const confirmPasswordInput = document.getElementById("confirmPasswordInput");
 const usernameInput = document.getElementById("usernameInput");
 
+//deletePosts
+const editPortfolio = document.getElementById("editPortfolio");
+const deleteButtons = document.querySelectorAll(".deletePostBtn");
+const postsToDeleteInput = document.getElementById("postsToDelete");
+
 if (loginform) {
   loginform.addEventListener("submit", (event) => {
     try {
@@ -128,4 +133,14 @@ function checkPassword(password) {
   let passmatch = password.match(regex);
   if (passmatch == null)
     throw "Password must contain at least one uppercase, number, and special character and be at least 8 characters";
+}
+
+if (editPortfolio) {
+  console.log("made it here");
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const postElement = this.closest(".editPortPosts");
+      postElement.remove();
+    });
+  });
 }

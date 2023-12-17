@@ -3,7 +3,6 @@
 <a href="../feed/search">go to search</a> <br>
 <a href="/user/editprofile">edit profile</a> <br>
 <a href="/user/logout">logout</a> <br><br>
-
 {{title}} <br>
 
 {{#if User}}
@@ -19,12 +18,18 @@
 
 {{#each Portfolio}}
     <div class="portfolio">
+        <div class="editPortfolio">
         <h1>{{Subject}}</h1> <br>
+        
+       <a href="/user/editportfolio/{{_id}}" class="edit-portfolio-button">
+                <button type="button">Edit Portfolio</button>
+        </a>
+        
+
         <p>
             Create Date: {{createDate}} <br>
             Last Update: {{lastUpdate}} <br>
         </p>
-        <!--{{#each Post}}-->
-        <!--{{/each}}-->
+        </div>
     </div>
 {{/each}}
