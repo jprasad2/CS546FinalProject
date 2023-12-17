@@ -6,8 +6,45 @@ import { userData } from "../data/index.js";
 import { portfolioData } from "../data/index.js";
 
 router.route("/").get(async (req, res) => {
-  res.status(404).render('./error/error', {type: 'error-not-found', error: 'Not found', title: 'Error Page'})
-})
+  res.status(404).render("./error/error", {
+    type: "error-not-found",
+    error: "Not found",
+    title: "Error Page",
+  });
+});
+
+router
+  .route("/editportfolio/:id")
+  .get(async (req, res) => {
+    console.log("made it to route");
+    try {
+      let posts = [
+        { PostId: "657e6d9b72110fe95ed8f041", postTitle: "myfirstpost" },
+        { PostId: "657e6d9b72110fe95ed8f042", postTitle: "mysecondpost" },
+        { PostId: "657e6d9b72110fe95ed8f043", postTitle: "mythirdpost" },
+      ];
+      let portfolio = await portfolioData.getPortfolioById(req.params.id);
+      console.log(portfolio);
+      if (portfolio.Posts.length !== 0) {
+        posts = portfolio.Posts;
+      }
+      res.render("./users/editport", {
+        title: `${portfolio.Subject}`,
+        posts: posts,
+        id: portfolio._id,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  })
+  .post(async (req, res) => {
+    portfolioData.updatePortfolio(
+      req.body.portId,
+      req.body.subject,
+      req.body.postId
+    );
+    res.redirect("/user/profile");
+  });
 
 router.route("/profile").get(async (req, res) => {
   //console.log(req.session.user)
@@ -31,48 +68,57 @@ router
   })
   .post(async (req, res) => {
     //console.log("edit profile")
-    let toUpdate = []
+    let toUpdate = [];
     try {
-    if (req.body.updateBio && req.body.updatePic)
-    {
+      if (req.body.updateBio && req.body.updatePic) {
         //console.log("update bio and pic")
         //console.log(req.session.user.Email)
         //console.log(req.body.radioPic)
-        toUpdate = [0, req.session.user.Email, {updateBio: req.body.bioInput, updatePic: req.body.radioPic}]
-        let updatedUser = await userData.updateUser(toUpdate)
-        if (updatedUser)
-        {
-            req.session.user.Bio = updatedUser.Bio
-            //console.log(req.session.user.Bio)
-            req.session.user.profilePicture = updatedUser.profilePicture
-            res.render('./users/editprofile', { title: "Edit Profile", updated: "PROFILE HAS BEEN UPDATED" })
+        toUpdate = [
+          0,
+          req.session.user.Email,
+          { updateBio: req.body.bioInput, updatePic: req.body.radioPic },
+        ];
+        let updatedUser = await userData.updateUser(toUpdate);
+        if (updatedUser) {
+          req.session.user.Bio = updatedUser.Bio;
+          //console.log(req.session.user.Bio)
+          req.session.user.profilePicture = updatedUser.profilePicture;
+          res.render("./users/editprofile", {
+            title: "Edit Profile",
+            updated: "PROFILE HAS BEEN UPDATED",
+          });
         }
-    }
-    else if (req.body.updateBio)
-    {
+      } else if (req.body.updateBio) {
         //console.log("update bio")
-        toUpdate = [1, req.session.user.Email, {updateBio: req.body.bio}]
-        let updatedUser = await userData.updateUser(toUpdate)
-        if (updatedUser)
-        {
-            req.session.user.Bio = updatedUser.Bio
-            //console.log(req.session.user.Bio)
-            res.render('./users/editprofile', { title: "Edit Profile", updated: "PROFILE HAS BEEN UPDATED" })
+        toUpdate = [1, req.session.user.Email, { updateBio: req.body.bio }];
+        let updatedUser = await userData.updateUser(toUpdate);
+        if (updatedUser) {
+          req.session.user.Bio = updatedUser.Bio;
+          //console.log(req.session.user.Bio)
+          res.render("./users/editprofile", {
+            title: "Edit Profile",
+            updated: "PROFILE HAS BEEN UPDATED",
+          });
         }
-    }
-    else if (req.body.updatePic)
-    {
+      } else if (req.body.updatePic) {
         //console.log("update pic")
-        toUpdate = [2, req.session.user.Email, {updatePic: req.body.radioPic}]
-        let updatedUser = await userData.updateUser(toUpdate)
-        if (updatedUser)
-        {
-            req.session.user.profilePicture = updatedUser.profilePicture
-            res.render('./users/editprofile', { title: "Edit Profile", updated: "PROFILE HAS BEEN UPDATED" })
+        toUpdate = [
+          2,
+          req.session.user.Email,
+          { updatePic: req.body.radioPic },
+        ];
+        let updatedUser = await userData.updateUser(toUpdate);
+        if (updatedUser) {
+          req.session.user.profilePicture = updatedUser.profilePicture;
+          res.render("./users/editprofile", {
+            title: "Edit Profile",
+            updated: "PROFILE HAS BEEN UPDATED",
+          });
         }
-    }
+      }
     } catch (e) {
-        res.render('./users/editprofile', { title: "Edit Profile", error: e })
+      res.render("./users/editprofile", { title: "Edit Profile", error: e });
     }
   });
 

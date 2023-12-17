@@ -25,3 +25,11 @@ button:hover {
     outline-style: ridge;
     cursor:pointer;
 }
+.editPortPosts{
+    display:flex;
+    outline-color:1px;
+    outline-style:ridge;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: aqua;
+}

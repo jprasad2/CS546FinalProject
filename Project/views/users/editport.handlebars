@@ -1,0 +1,21 @@
+<a href="/user/profile">Cancel and back to profile</a>
+
+<h1>Edit '{{title}}' portfolio</h1>
+
+<form  id='editPortfolio' action="/user/editportfolio/{{id}}" method="POST">
+    <label for="updateSubjectInput" id="updateSubjectLabel">Update Subject</label>
+    <input type="text" id="updateSubjectInput" name='subject' placeholder="{{subject}}" value='{{subject}}' required>
+    <br>
+
+    {{#each posts}}
+            <div class="editPortPosts">
+                <label for="postContent">{{postTitle}}</label>
+                <input type="hidden" name="postId" value="{{PostId}}">
+                <button type="button" class="deletePostBtn">Delete Post</button>
+            </div>
+            <br>
+    {{/each}}
+    <input type="hidden" name="portId" value="{{id}}" id="portId">
+    <button type="submit">Save Changes</button>
+</form>
+<script src="../../public/js/clientValidation.js"></script>
