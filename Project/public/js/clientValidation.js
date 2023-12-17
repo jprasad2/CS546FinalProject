@@ -4,6 +4,8 @@ const loginform = document.getElementById("login-form");
 console.log(loginform);
 const searchform = document.getElementById("search-form");
 
+const createportform = document.getElementById("createport-form")
+
 //login inputs
 const emailAddressInput = document.getElementById("emailAddressInput");
 const passwordInput = document.getElementById("passwordInput");
@@ -25,6 +27,10 @@ const editPortfolio = document.getElementById("editPortfolio");
 const deleteButtons = document.querySelectorAll(".deletePostBtn");
 const postsToDeleteInput = document.getElementById("postsToDelete");
 
+const subjectInput = document.getElementById("subjectInput")
+const errorDiv = document.getElementById("error")
+const createdDiv = document.getElementById("created")
+
 if (loginform) {
   loginform.addEventListener("submit", (event) => {
     try {
@@ -33,7 +39,7 @@ if (loginform) {
       //error.hidden = true
     } catch (e) {
       event.preventDefault();
-      error.innerHTML = e;
+      errorDiv.innerHTML = e;
     }
   });
 }
@@ -48,15 +54,29 @@ if (searchform) {
             */
     } catch (e) {
       event.preventDefault();
-      error.innerHTML = e;
+      //error.hidden = false
+      errorDiv.innerHTML = e;
     }
   });
+}
+
+if (createportform) {
+  createportform.addEventListener("submit", (event) => {
+    try {
+      checkStr(subjectInput.value)
+      //createportform.submit()
+    } catch (e) {
+      event.preventDefault()
+      errorDiv.innerHTML = e
+      createdDiv.innerHTML = ""
+    }
+  })
 }
 
 if (signupform) {
   signupform.addEventListener("submit", (event) => {
     console.log("form submitted");
-    event.preventDefault();
+    //event.preventDefault();
 
     try {
       checkStr(firstNameInput.value);
@@ -76,7 +96,7 @@ if (signupform) {
       console.log(e);
 
       console.log("made it here");
-      error.innerHTML = e;
+      errorDiv.innerHTML = e;
     }
   });
 }

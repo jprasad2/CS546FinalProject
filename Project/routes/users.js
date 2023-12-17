@@ -201,8 +201,14 @@ router.route("/createport")
       res.render("./users/createport", { title: "Create Portfolio" });
     })
     .post(async (req, res) => {
+      console.log("here")
       req.body.subjectInput = validation.checkStr(req.body.subjectInput)
+      console.log(req.body.subjectInput)
+      if (!req.body.subjectInput.length)
+          throw "Must name the portfolio"
       try {
+        if (req.body.subjectInput.length == 0)
+          throw "Must name the portfolio"
         let portInfo = await portfolioData.createPortfolio(req.body.subjectInput, new Date(), req.session.user.Email)
         if (portInfo)
         {

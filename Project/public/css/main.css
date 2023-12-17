@@ -33,3 +33,55 @@ button:hover {
     justify-content: space-around;
     background-color: aqua;
 }
+
+img {
+    border-color: crimson;
+    border-width: 5px;
+    border-style: dotted double;
+}
+
+form {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgb(203, 203, 243);
+}
+
+input:focus {
+    background-color: rgb(174, 255, 174);
+    outline-color: yellow;
+    outline-width: 1px;
+    outline-style: ridge;
+}
+
+p {
+    background-color: black;
+    color: #e6edf1;
+}
+
+label {
+    background-color: rgb(255, 189, 189);
+    color: #006ead;
+}
+
+div {
+    color: #223038;
+}
+
+h1 {
+    border-color: rgb(42, 0, 231);
+    border-style: dotted double;
+    border-bottom: 1px;
+}
+
+header {
+    border-color: rgb(42, 0, 231);
+    border-style: dashed;
+    border-bottom: 1px;
+}
+
+.error {
+    background-color: rgb(255, 0, 0);
+}
+
+.created {
+    background-color: aquamarine;
+}
