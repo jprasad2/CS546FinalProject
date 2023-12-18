@@ -4,7 +4,7 @@ const loginform = document.getElementById("login-form");
 console.log(loginform);
 const searchform = document.getElementById("search-form");
 
-const createportform = document.getElementById("createport-form")
+const createportform = document.getElementById("createport-form");
 
 //login inputs
 const emailAddressInput = document.getElementById("emailAddressInput");
@@ -27,9 +27,82 @@ const editPortfolio = document.getElementById("editPortfolio");
 const deleteButtons = document.querySelectorAll(".deletePostBtn");
 const postsToDeleteInput = document.getElementById("postsToDelete");
 
-const subjectInput = document.getElementById("subjectInput")
-const errorDiv = document.getElementById("error")
-const createdDiv = document.getElementById("created")
+const subjectInput = document.getElementById("subjectInput");
+const errorDiv = document.getElementById("error");
+const createdDiv = document.getElementById("created");
+const clickablePortfolios = document.getElementsByClassName("portfolio");
+const postdiv = document.getElementById("post");
+
+if (clickablePortfolios) {
+  console.log("hi");
+  for (const clickablePortfolio of clickablePortfolios) {
+    clickablePortfolio.addEventListener("click", (event) => {
+      console.log(clickablePortfolio.id);
+      console.log("clicked");
+
+      let requestConfig = {
+        method: "GET",
+        url: `http://localhost:3000/user/listposts/${clickablePortfolio.id}`,
+      };
+      $.ajax(requestConfig).then(function (data) {
+        // subject.innerHTML = "test";
+
+        if (data.Posts.length === 0) {
+          console.log("hit here");
+        } else {
+          clickablePortfolio.style.display = "none";
+          let subject = document.createElement("h2");
+          subject.textContent = "Viewing " + data.Subject + " portfolio";
+
+          postdiv.append(subject);
+          postdiv.style.display = "inline";
+          for (let posts of data.Posts) {
+            console.log;
+            let request = {
+              method: "GET",
+              url: `http://localhost:3000/user/postdetails/${posts._id}`,
+            };
+            $.ajax(request).then(function (postData) {
+              console.log(postData);
+              let p = document.createElement("div");
+              p.classList.add("individualpost");
+
+              let title = document.createElement("h3");
+              title.textContent = postData.Title;
+
+              let linkdescriptor = document.createElement("dt");
+              linkdescriptor.textContent = "Link to content";
+              let url = document.createElement("a");
+              url.setAttribute("href", postData.Url);
+              url.textContent = "click here to view";
+
+              let descriptiondescriptor = document.createElement("dt");
+              descriptiondescriptor.textContent = "Description:";
+              let description = document.createElement("dd");
+              description.textContent = postData.Description;
+
+              let closebutton = document.createElement("button");
+              closebutton.textContent = "view less";
+              closebutton.addEventListener("click", function () {
+                postdiv.style.display = "none";
+                clickablePortfolio.style.display = "block";
+                postdiv.innerHTML = "";
+              });
+
+              p.append(title);
+              p.append(url);
+              p.append(descriptiondescriptor);
+              p.append(description);
+              p.append(closebutton);
+
+              postdiv.append(p);
+            });
+          }
+        }
+      });
+    });
+  }
+}
 
 if (loginform) {
   loginform.addEventListener("submit", (event) => {
@@ -63,14 +136,14 @@ if (searchform) {
 if (createportform) {
   createportform.addEventListener("submit", (event) => {
     try {
-      checkStr(subjectInput.value)
+      checkStr(subjectInput.value);
       //createportform.submit()
     } catch (e) {
-      event.preventDefault()
-      errorDiv.innerHTML = e
-      createdDiv.innerHTML = ""
+      event.preventDefault();
+      errorDiv.innerHTML = e;
+      createdDiv.innerHTML = "";
     }
-  })
+  });
 }
 
 if (signupform) {

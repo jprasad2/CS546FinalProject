@@ -21,12 +21,14 @@
 <div id="error" class="error">{{error}}</div>
 
 {{#each Portfolio}}
-    <div class="portfolio">
+    <div class="portfolio" id="{{_id}}">
         <h1>{{Subject}}</h1> <br>
         <p>
             Create Date: {{createDate}} <br>
             Last Update: {{lastUpdate}} <br>
         </p>
     </div>
-{{/each}}
+    <div class="post" style ="display: none" id="post"></div>
 
+{{/each}}
+<script src="../../public/js/clientValidation.js"></script>

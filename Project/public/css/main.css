@@ -85,3 +85,15 @@ header {
 .created {
     background-color: aquamarine;
 }
+.individualpost{
+    display:flex;
+    flex-direction: column;
+    border-style: solid;
+    background-color: lightblue
+}
+.post{
+    background-color: antiquewhite;
+    display: flex;
+    
+    flex-direction: column;
+}

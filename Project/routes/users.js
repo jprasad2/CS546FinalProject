@@ -54,6 +54,26 @@ router
     res.redirect("/user/profile");
   });
 
+router.route("/listposts/:id").get(async (req, res) => {
+  try {
+    let portfolio = await portfolioData.getPortfolioById(req.params.id);
+    console.log(portfolio);
+    return res.status(200).json(portfolio);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.route("/postdetails/:id").get(async (req, res) => {
+  try {
+    let post = await postData.getPostsById(req.params.id);
+    console.log(post);
+    res.status(200).json(post);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 router
   .route("/editportfolio/:id")
   .get(async (req, res) => {
@@ -253,35 +273,42 @@ router
     }
   });
 
-  router.route("/createport")
+router
+  .route("/createport")
   .get(async (req, res) => {
     res.render("./users/createport", { title: "Create Portfolio" });
   })
   .post(async (req, res) => {
-    console.log("here")
-    req.body.subjectInput = validation.checkStr(req.body.subjectInput)
-    console.log(req.body.subjectInput)
-    if (!req.body.subjectInput.length)
-        throw "Must name the portfolio"
+    console.log("here");
+    req.body.subjectInput = validation.checkStr(req.body.subjectInput);
+    console.log(req.body.subjectInput);
+    if (!req.body.subjectInput.length) throw "Must name the portfolio";
     try {
-      if (req.body.subjectInput.length == 0)
-        throw "Must name the portfolio"
-      let portInfo = await portfolioData.createPortfolio(req.body.subjectInput, new Date(), req.session.user.Email)
-      if (portInfo)
-      {
-        let userInfo = await userData.getByUsername(req.session.user.Username)
+      if (req.body.subjectInput.length == 0) throw "Must name the portfolio";
+      let portInfo = await portfolioData.createPortfolio(
+        req.body.subjectInput,
+        new Date(),
+        req.session.user.Email
+      );
+      if (portInfo) {
+        let userInfo = await userData.getByUsername(req.session.user.Username);
         if (userInfo) {
           req.session.user.portfolioIDs = userInfo.portfolioIDs;
-          return res.render("./users/createport", {title: "Create Portfolio", Created: "Portfolio created"})
+          return res.render("./users/createport", {
+            title: "Create Portfolio",
+            Created: "Portfolio created",
+          });
         }
       }
     } catch (e) {
-      return res.status(400).render("./users/createport", {title: "Create Portfolio", error: e})
+      return res
+        .status(400)
+        .render("./users/createport", { title: "Create Portfolio", error: e });
     }
-  })
+  });
 
 router.route("/logout").get(async (req, res) => {
-  req.session.destroy()
+  req.session.destroy();
   res.render("./users/logout", { title: "Logout" });
 });
 
