@@ -94,6 +94,38 @@ if (clickablePortfolios) {
               p.append(descriptiondescriptor);
               p.append(description);
               p.append(closebutton);
+              if (postData.commentsAllowed) {
+                let closecomment = document.createElement("button");
+                let commentList = document.createElement("ul");
+                let viewcomments = document.createElement("button");
+                viewcomments.textContent = "view comments";
+                viewcomments.addEventListener("click", function () {
+                  for (let comment of postData.Comments) {
+                    let li = document.createElement("li");
+                    li.textContent = comment.name + ": " + comment.comment;
+                    commentList.append(li);
+                  }
+                  commentList.style.display = "block";
+                  closecomment.style.display = "block";
+                  p.append(closecomment);
+                });
+                let addCommentButton = document.createElement("button");
+                addCommentButton.textContent = "add comment";
+                addCommentButton.addEventListener("click", function () {
+                  window.location.href = `http://localhost:3000/user/addcomment/${postData._id}`;
+                });
+
+                closecomment.textContent = "view less comments";
+                closecomment.addEventListener("click", function () {
+                  commentList.style.display = "None";
+                  closecomment.style.display = "None";
+                  commentList.innerHTML = "";
+                });
+
+                p.append(viewcomments);
+                p.append(addCommentButton);
+                p.append(commentList);
+              }
 
               postdiv.append(p);
             });

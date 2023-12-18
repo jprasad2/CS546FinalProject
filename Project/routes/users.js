@@ -204,6 +204,36 @@ router
   });
 
 router
+  .route("/addcomment/:id")
+  .get(async (req, res) => {
+    try {
+      let post = await postData.getPostsById(req.params.id);
+
+      res.render("./users/addcomment", {
+        title: `Add comment on ${post.Title}`,
+        id: post._id,
+      });
+    } catch (e) {}
+  })
+  .post(async (req, res) => {
+    try {
+      if (req.body.commentInput.trim() === "") {
+        throw "error";
+      }
+      console.log(req.session.user);
+      let addedComment = await postData.addComment(
+        req.params.id,
+        req.body.commentInput,
+        req.session.user.firstName,
+        req.session.user.lastName
+      );
+      res.redirect("../../../");
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+router
   .route("/signup")
   .get(async (req, res) => {
     res.render("./users/signup", { title: "Signup" });

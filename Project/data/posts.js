@@ -90,12 +90,58 @@ const getAllPosts = async () => {
   //   return postList;
 };
 
+const addComment = async (id, comment, firstName, lastName) => {
+  try {
+    let postObjectId = new ObjectId(id);
+    let today = new Date("2023-12-17T03:45:10.670Z");
+    today.setDate(today.getDate() + 1);
+    const formattedDate = today.toLocaleDateString("en-US", {
+      year: "2-digit",
+      month: "numeric",
+      day: "numeric",
+    });
+    if (typeof comment !== "string") {
+      throw "error";
+    }
+    comment = comment.trim();
+    if (comment.length === 0) {
+      throw "error";
+    }
+    let postCollection = await posts();
+    let newComment = {
+      _id: new ObjectId(),
+      name: firstName + " " + lastName,
+      comment: comment,
+    };
+    let updatedPost = await postCollection.findOneAndUpdate(
+      { _id: postObjectId },
+      {
+        $set: {
+          lastUpdate: formattedDate,
+        },
+        $push: {
+          Comments: newComment,
+        },
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+    if (!updatedPost) {
+      throw "error";
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const deletePost = async () => {};
 
 const updatePost = async () => {};
 
 export default {
   createPost,
+  addComment,
   getPostsById,
   getAllPosts,
   deletePost,
